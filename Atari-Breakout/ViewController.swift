@@ -8,18 +8,26 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+class ViewController: UIViewController, UICollisionBehaviorDelegate {
+    
+    var paddle : AddedViews!
+    var ball : AddedViews!
+    var dynamicAnimator = UIDynamicAnimator()
+    var ballBehavior = UIDynamicItemBehavior()
+    var collisionBehavior = UICollisionBehavior()
+    
+    
+    @IBOutlet weak var startBreakoutGameOutlet: UIButton!
+    @IBAction func gameStartBreakout(_ sender: UIButton)
+    {
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
+    
+    
+        override func viewDidLoad()
+        {
+            super.viewDidLoad()
+        }
+    
 }
 

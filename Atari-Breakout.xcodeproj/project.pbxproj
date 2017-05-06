@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E52D6EA1EBCC70B005EDC04 /* AddedViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52D6E91EBCC70B005EDC04 /* AddedViews.swift */; };
 		2E69EE1C1EBA221A00D9BE44 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E69EE1B1EBA221A00D9BE44 /* AppDelegate.swift */; };
 		2E69EE1E1EBA221A00D9BE44 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E69EE1D1EBA221A00D9BE44 /* ViewController.swift */; };
 		2E69EE211EBA221A00D9BE44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E69EE1F1EBA221A00D9BE44 /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E52D6E91EBCC70B005EDC04 /* AddedViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddedViews.swift; sourceTree = "<group>"; };
 		2E69EE181EBA221A00D9BE44 /* Atari-Breakout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Atari-Breakout.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E69EE1B1EBA221A00D9BE44 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2E69EE1D1EBA221A00D9BE44 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 				2E69EE1B1EBA221A00D9BE44 /* AppDelegate.swift */,
 				2E69EE1D1EBA221A00D9BE44 /* ViewController.swift */,
 				2E69EE1F1EBA221A00D9BE44 /* Main.storyboard */,
+				2E52D6E91EBCC70B005EDC04 /* AddedViews.swift */,
 				2E69EE221EBA221B00D9BE44 /* Assets.xcassets */,
 				2E69EE241EBA221B00D9BE44 /* LaunchScreen.storyboard */,
 				2E69EE271EBA221B00D9BE44 /* Info.plist */,
@@ -136,6 +139,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E52D6EA1EBCC70B005EDC04 /* AddedViews.swift in Sources */,
 				2E69EE1E1EBA221A00D9BE44 /* ViewController.swift in Sources */,
 				2E69EE1C1EBA221A00D9BE44 /* AppDelegate.swift in Sources */,
 			);
@@ -299,6 +303,7 @@
 				2E69EE2C1EBA221B00D9BE44 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
