@@ -10,24 +10,112 @@ import UIKit
 
 class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
+    var everyBlock : [AddedViews] = []
+    var allCollectiveViews : [AddedViews] = []
     var paddle : AddedViews!
     var ball : AddedViews!
     var dynamicAnimator = UIDynamicAnimator()
     var ballBehavior = UIDynamicItemBehavior()
     var collisionBehavior = UICollisionBehavior()
+    var paddleBehavior = UIDynamicItemBehavior()
+    var blockBehavior = UIDynamicItemBehavior()
+    
+    @IBAction func dragToMove(_ sender: UIPanGestureRecognizer)
+    {
+        paddle.center = CGPoint(x: sender.location(in: self.view).x, y: paddle.center.y)
+        dynamicAnimator.updateItem(usingCurrentState: paddle)
+    }
+    
     
     
     @IBOutlet weak var startBreakoutGameOutlet: UIButton!
     @IBAction func gameStartBreakout(_ sender: UIButton)
     {
+        ballBehavior.resistance = 0.0
+        dynamicAnimator.updateItem(usingCurrentState: ball)
+        ball.isHidden = false
+        let pushBehavior = UIPushBehavior(items: [ball], mode: UIPushBehaviorMode.instantaneous)
+        pushBehavior.magnitude = 0.2
+        pushBehavior.angle = 1.1
+        pushBehavior.active = true
+        dynamicAnimator.addBehavior(pushBehavior)
         
+        sender.isHidden = true
     }
+    
     
     
         override func viewDidLoad()
         {
             super.viewDidLoad()
+            dynamicAnimator = UIDynamicAnimator(referenceView: view)
+            
+            paddle = AddedViews(frame: CGRect(x: 130, y: 640, width: 130, height: 10))
+            paddle.backgroundColor = UIColor.white
+            view.addSubview(paddle)
+            allCollectiveViews.append(paddle)
+            
+            ball = AddedViews(frame: CGRect(x: 150, y: 250, width: 15, height: 15))
+            ball.backgroundColor = UIColor.white
+            view.addSubview(ball)
+            allCollectiveViews.append(ball)
+            ball.isHidden = true
+            
+            var x = 5 as CGFloat
+            var y = 10 as CGFloat
+            
+            for blocks in 1...5
+            {
+                let blockView = AddedViews(frame: CGRect(x: x, y: y, width: 60, height: 40))
+                blockView.backgroundColor = UIColor.white
+                view.addSubview(blockView)
+                
+                everyBlock.append(blockView)
+                allCollectiveViews.append(blockView)
+            }
+            
+            gameBehavior() //Puts properties from below into these objects
         }
     
+    
+    
+    func gameBehavior()
+    {
+    ballBehavior = UIDynamicItemBehavior(items: [ball])
+    ballBehavior.friction = 0.0
+    ballBehavior.resistance = 0.0
+    ballBehavior.elasticity = 1.0
+    ballBehavior.allowsRotation = false
+    dynamicAnimator.addBehavior(ballBehavior)
+    
+    paddleBehavior = UIDynamicItemBehavior(items: [paddle])
+    paddleBehavior.density = 99999.9
+    paddleBehavior.elasticity = 1.0
+    paddleBehavior.resistance = 99999.9
+    paddleBehavior.allowsRotation = false
+    dynamicAnimator.addBehavior(paddleBehavior)
+    
+    blockBehavior = UIDynamicItemBehavior(items: everyBlock)
+    blockBehavior.density = 99999.9
+    blockBehavior.elasticity = 1.0
+    blockBehavior.allowsRotation = false
+    dynamicAnimator.addBehavior(blockBehavior)
+    
+    collisionBehavior = UICollisionBehavior(items: [ball, paddle])
+    collisionBehavior.collisionMode = UICollisionBehaviorMode.everything
+    collisionBehavior.translatesReferenceBoundsIntoBoundary = true
+    dynamicAnimator.addBehavior(collisionBehavior)
+    }
+    
+    
+    func collisionBehavior(_ behavior: UICollisionBehavior, beganContactFor item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying?, at p: CGPoint)
+    {
+        
+    }
+    
+    func collisionBehavior(_ behavior: UICollisionBehavior, endedContactFor item1: UIDynamicItem, with item2: UIDynamicItem)
+    {
+        
+    }
 }
 
