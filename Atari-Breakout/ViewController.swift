@@ -20,6 +20,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var paddleBehavior = UIDynamicItemBehavior()
     var blockBehavior = UIDynamicItemBehavior()
     
+    
     @IBAction func dragToMove(_ sender: UIPanGestureRecognizer)
     {
         paddle.center = CGPoint(x: sender.location(in: self.view).x, y: paddle.center.y)
@@ -64,7 +65,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             var x = 5 as CGFloat
             var y = 10 as CGFloat
             
-            for blocks in 1...5
+            for blocks in 1...6
             {
                 let blockView = AddedViews(frame: CGRect(x: x, y: y, width: 60, height: 40))
                 blockView.backgroundColor = UIColor.white
@@ -72,6 +73,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
                 
                 everyBlock.append(blockView)
                 allCollectiveViews.append(blockView)
+                
+                
+                x += 65
             }
             
             gameBehavior() //Puts properties from below into these objects
@@ -101,10 +105,21 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     blockBehavior.allowsRotation = false
     dynamicAnimator.addBehavior(blockBehavior)
     
-    collisionBehavior = UICollisionBehavior(items: [ball, paddle])
+    collisionBehavior = UICollisionBehavior(items: everyBlock)
     collisionBehavior.collisionMode = UICollisionBehaviorMode.everything
     collisionBehavior.translatesReferenceBoundsIntoBoundary = true
+    collisionBehavior.collisionDelegate = self
     dynamicAnimator.addBehavior(collisionBehavior)
+        
+    collisionBehavior = UICollisionBehavior(items: allCollectiveViews)
+    collisionBehavior.collisionMode = UICollisionBehaviorMode.everything
+    collisionBehavior.translatesReferenceBoundsIntoBoundary = true
+    collisionBehavior.collisionDelegate = self
+    dynamicAnimator.addBehavior(collisionBehavior)
+ 
+        
+      
+
     }
     
     
