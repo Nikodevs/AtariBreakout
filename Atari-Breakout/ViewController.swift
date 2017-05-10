@@ -116,10 +116,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     collisionBehavior.translatesReferenceBoundsIntoBoundary = true
     collisionBehavior.collisionDelegate = self
     dynamicAnimator.addBehavior(collisionBehavior)
- 
-        
-      
-
     }
     
     
