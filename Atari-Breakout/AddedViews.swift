@@ -10,5 +10,5 @@ import UIKit
 
 class AddedViews: UIView
 {
-    
+    var blockHits = 0
 }

@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var everyBlock : [AddedViews] = []
+    var everyBlockDeleted : [AddedViews] = []
     var allCollectiveViews : [AddedViews] = []
     var paddle : AddedViews!
     var ball : AddedViews!
@@ -19,6 +20,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var collisionBehavior = UICollisionBehavior()
     var paddleBehavior = UIDynamicItemBehavior()
     var blockBehavior = UIDynamicItemBehavior()
+    var blockCount = 0
     
     
     @IBAction func dragToMove(_ sender: UIPanGestureRecognizer)
@@ -51,7 +53,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             super.viewDidLoad()
             dynamicAnimator = UIDynamicAnimator(referenceView: view)
             
-            paddle = AddedViews(frame: CGRect(x: 130, y: 640, width: 130, height: 10))
+            paddle = AddedViews(frame: CGRect(x: 330, y: 640, width: 130, height: 10))
             paddle.backgroundColor = UIColor.white
             view.addSubview(paddle)
             allCollectiveViews.append(paddle)
@@ -61,27 +63,31 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             view.addSubview(ball)
             allCollectiveViews.append(ball)
             ball.isHidden = true
+            gameBehavior() //Puts properties from below into these objects
             
             var x = 5 as CGFloat
             var y = 10 as CGFloat
             
-            for blocks in 1...6
+            for i in 1...3
             {
-                let blockView = AddedViews(frame: CGRect(x: x, y: y, width: 60, height: 40))
-                blockView.backgroundColor = UIColor.white
-                view.addSubview(blockView)
+                for e in 1...6
+                {
+                    let blockView = AddedViews(frame: CGRect(x: x, y: y, width: 60, height: 40))
+                    blockView.backgroundColor = UIColor.white
+                    view.addSubview(blockView)
                 
-                everyBlock.append(blockView)
-                allCollectiveViews.append(blockView)
+                    everyBlock.append(blockView)
+                    allCollectiveViews.append(blockView)
+                    blockCount += 1
                 
-                
-                x += 65
+                    x += 65
+                }
+                x = 0
+                y += 60
             }
-            
-            gameBehavior() //Puts properties from below into these objects
         }
     
-    
+
     
     func gameBehavior()
     {
@@ -104,12 +110,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     blockBehavior.elasticity = 1.0
     blockBehavior.allowsRotation = false
     dynamicAnimator.addBehavior(blockBehavior)
-    
-    collisionBehavior = UICollisionBehavior(items: everyBlock)
-    collisionBehavior.collisionMode = UICollisionBehaviorMode.everything
-    collisionBehavior.translatesReferenceBoundsIntoBoundary = true
-    collisionBehavior.collisionDelegate = self
-    dynamicAnimator.addBehavior(collisionBehavior)
         
     collisionBehavior = UICollisionBehavior(items: allCollectiveViews)
     collisionBehavior.collisionMode = UICollisionBehaviorMode.everything
@@ -118,15 +118,63 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     dynamicAnimator.addBehavior(collisionBehavior)
     }
     
+    func ballReset()
+    {
+        ballBehavior.resistance = 100.0
+        ball.center = CGPoint(x: 150, y: 250)
+        ball.isHidden = true
+        startBreakoutGameOutlet.isHidden = false
+        dynamicAnimator.updateItem(usingCurrentState: ball)
+    }
+
     
     func collisionBehavior(_ behavior: UICollisionBehavior, beganContactFor item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying?, at p: CGPoint)
     {
-        
+        if p.y > paddle.center.y && item.isEqual(ball)
+        {
+            ballReset()
+            
+            for block in everyBlockDeleted
+            {
+                block.isHidden = false
+                collisionBehavior.addItem(block)
+                dynamicAnimator.updateItem(usingCurrentState: block)
+                block.blockHits = 0
+                block.backgroundColor = UIColor.white
+            }
+            
+            for aBlock in everyBlock
+            {
+                aBlock.blockHits = 0
+                aBlock.backgroundColor = UIColor.white
+            }
+            
+            everyBlockDeleted.removeAll(keepingCapacity: false)
+        }
+
     }
     
     func collisionBehavior(_ behavior: UICollisionBehavior, endedContactFor item1: UIDynamicItem, with item2: UIDynamicItem)
     {
-        
+        for block in everyBlock
+        {
+            if item1.isEqual(ball) && item2.isEqual(everyBlock) || item1.isEqual(everyBlock) && item2.isEqual(ball)
+            {
+                if block.blockHits == 0
+                {
+                    block.blockHits = 1
+                    block.backgroundColor = UIColor.purple
+                }
+                else
+                {
+                    block.isHidden = true
+                    collisionBehavior.removeItem(block)
+                    dynamicAnimator.updateItem(usingCurrentState: block)
+                    everyBlockDeleted.append(block)
+                }
+                
+            }
+        }
     }
 }
 
